@@ -57,12 +57,12 @@ A multilingual AI-powered Telegram bot offering comprehensive astrological servi
 - Optional: domain name and SSL certificates
 
 ### 1. Automated Deployment
-Run the provided script on a fresh server to install Docker, clone the project and start all services:
+Run the interactive deployment script on a fresh server to install Docker, configure environment variables and start the bot:
 ```bash
 curl -L https://raw.githubusercontent.com/example/astrologer-bot/main/deploy.sh | sudo bash
 ```
 
-The script clones the repository into `/opt/astrologer-bot`, copies the `.env` file template and launches Docker Compose.
+The script clones the repository into `/opt/astrologer-bot`, asks for all required settings and launches the production services.
 
 ### 2. Manual Setup
 ```bash
@@ -97,7 +97,7 @@ JWT_SECRET_KEY=your_jwt_secret_here
 # Payment (Optional)
 YOOKASSA_SHOP_ID=your_shop_id
 YOOKASSA_SECRET_KEY=your_secret_key
-TELEGRAM_PAYMENT_TOKEN=your_payment_token
+TELEGRAM_PAYMENTS_TOKEN=your_payment_token
 
 # External APIs
 GEOCODING_API_KEY=your_geocoding_key
