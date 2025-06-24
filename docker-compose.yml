@@ -143,6 +143,16 @@ services:
     restart: unless-stopped
     profiles:
       - monitoring
+  admin:
+    build:
+      context: ./frontend
+    container_name: astrologer_admin
+    ports:
+      - "3000:80"
+    depends_on:
+      - app
+    restart: unless-stopped
+
 
 volumes:
   postgres_data:
