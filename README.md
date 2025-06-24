@@ -51,23 +51,25 @@ A multilingual AI-powered Telegram bot offering comprehensive astrological servi
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Docker and Docker Compose
+- Ubuntu 22.04 server
 - Telegram Bot Token (from @BotFather)
 - OpenRouter API Key
-- PostgreSQL database (or use Docker)
+- Optional: domain name and SSL certificates
 
-### 1. Clone Repository
+### 1. Automated Deployment
+Run the provided script on a fresh server to install Docker, clone the project and start all services:
+```bash
+curl -L https://raw.githubusercontent.com/example/astrologer-bot/main/deploy.sh | sudo bash
+```
+
+The script clones the repository into `/opt/astrologer-bot`, copies the `.env` file template and launches Docker Compose.
+
+### 2. Manual Setup
 ```bash
 git clone <repository-url>
 cd astrologer-bot
-```
-
-### 2. Environment Setup
-```bash
-# Copy environment template
 cp backend/.env.example backend/.env
-
-# Edit configuration
+# edit configuration
 nano backend/.env
 ```
 
@@ -123,6 +125,24 @@ docker-compose logs -f app
 
 # Monitor Celery tasks (if monitoring profile enabled)
 open http://localhost:5555
+```
+
+### Admin Panel
+The React based admin panel is available on port **3000** once the services are running.
+It provides:
+- 📈 Dashboard with key statistics
+- 👥 User management
+- 💰 Subscription and tariff control
+- 📝 Content management
+- 💳 Transaction history
+- ⏰ Schedule settings
+- ⚙️ Bot configuration
+- 📋 Log viewer
+
+To modify the panel UI, edit the files under `frontend/src` and rebuild the container:
+```bash
+docker-compose build admin
+docker-compose up -d admin
 ```
 
 ## 📱 Bot Commands
