@@ -97,7 +97,7 @@ JWT_SECRET_KEY=your_jwt_secret_here
 # Payment (Optional)
 YOOKASSA_SHOP_ID=your_shop_id
 YOOKASSA_SECRET_KEY=your_secret_key
-TELEGRAM_PAYMENT_TOKEN=your_payment_token
+TELEGRAM_PAYMENTS_TOKEN=your_payment_token
 
 # External APIs
 GEOCODING_API_KEY=your_geocoding_key

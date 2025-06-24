@@ -35,7 +35,7 @@ class Payment(Base):
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     
     # Additional data
-    metadata = Column(Text, nullable=True)  # JSON string for additional data
+    extra_data = Column(Text, nullable=True)  # JSON string for additional data
     
     # Relationships
     user = relationship("User", back_populates="payments")
