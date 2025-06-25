@@ -19,7 +19,9 @@ A multilingual AI-powered Telegram bot offering comprehensive astrological servi
 ### 💎 Subscription System
 - **Free Tier**: Limited daily horoscopes and weekly tarot readings
 - **Premium**: Unlimited access to all features
-- **Payment Integration**: Telegram Payments + Yookassa
+- **Payment Integration**: Telegram Payments, Telegram Stars and Yookassa
+
+- **Admin Panel**: HTTP Basic authenticated interface for viewing users and payments
 
 ### 🤖 AI Integration
 - **Llama 4 Maverick** via OpenRouter for interpretations
@@ -98,9 +100,12 @@ JWT_SECRET_KEY=your_jwt_secret_here
 YOOKASSA_SHOP_ID=your_shop_id
 YOOKASSA_SECRET_KEY=your_secret_key
 TELEGRAM_PAYMENTS_TOKEN=your_payment_token
+TELEGRAM_STARS_TOKEN=your_stars_token
 
 # External APIs
 GEOCODING_API_KEY=your_geocoding_key
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=change_me
 ```
 
 ### 4. Start Services
@@ -128,7 +133,7 @@ open http://localhost:5555
 ```
 
 ### Admin Panel
-The React based admin panel is available on port **3000** once the services are running.
+The React based admin panel is available on port **3000** once the services are running (or on `/` when served through Nginx). Access to admin API routes requires HTTP Basic authentication using the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values from your `.env` file.
 It provides:
 - 📈 Dashboard with key statistics
 - 👥 User management
@@ -302,10 +307,26 @@ docker-compose exec postgres psql -U astrologer -d astrologer_bot -c "SELECT sch
    ```bash
    # Set production environment
    export ENVIRONMENT=production
-   
+
    # Start with production profile
    docker-compose --profile production up -d
    ```
+
+4. **Configure Domain and Webhook**
+   1. Point your domain's DNS `A` record to the server's IP address.
+   2. Edit `nginx/nginx.conf` and replace `server_name _;` with your domain name.
+   3. Set `TELEGRAM_WEBHOOK_URL=https://yourdomain.com/webhook` in `backend/.env`.
+   4. Restart the services:
+      ```bash
+      docker-compose --profile production down
+      docker-compose --profile production up -d
+      ```
+   5. Register the webhook with Telegram:
+      ```bash
+      curl -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook \
+        -H "Content-Type: application/json" \
+        -d '{"url": "https://yourdomain.com/webhook"}'
+      ```
 
 ### Environment-Specific Configurations
 
