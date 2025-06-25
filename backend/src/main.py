@@ -3,12 +3,16 @@ import logging
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+
+from sqlalchemy import select
 
 from src.config import settings
-from src.database import Base, async_engine
+from src.database import Base, async_engine, get_async_db
+from src.models import User, Payment
 from src.handlers.bot import bot
 from src.services.ai_service import ai_service
 
@@ -18,6 +22,22 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+security = HTTPBasic()
+
+
+def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
+    """Simple admin authentication."""
+    if (
+        credentials.username == settings.admin_username
+        and credentials.password == settings.admin_password
+    ):
+        return credentials.username
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Unauthorized",
+        headers={"WWW-Authenticate": "Basic"},
+    )
 
 
 @asynccontextmanager
@@ -109,6 +129,53 @@ async def webhook_handler(request: dict):
     except Exception as e:
         logger.error(f"Webhook error: {e}")
         return {"status": "error", "message": str(e)}
+
+
+# -------------------- Admin Endpoints --------------------
+
+@app.post("/admin/login")
+async def admin_login(credentials: HTTPBasicCredentials = Depends(security)):
+    if (
+        credentials.username == settings.admin_username
+        and credentials.password == settings.admin_password
+    ):
+        return {"status": "ok"}
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+
+
+@app.get("/admin/users")
+async def admin_users(admin: str = Depends(verify_admin)):
+    async with get_async_db() as db:
+        result = await db.execute(select(User))
+        users = result.scalars().all()
+        return [
+            {
+                "id": u.id,
+                "telegram_id": u.telegram_id,
+                "username": u.username,
+                "is_premium": u.is_premium,
+                "created_at": u.created_at,
+            }
+            for u in users
+        ]
+
+
+@app.get("/admin/payments")
+async def admin_payments(admin: str = Depends(verify_admin)):
+    async with get_async_db() as db:
+        result = await db.execute(select(Payment))
+        payments = result.scalars().all()
+        return [
+            {
+                "id": p.id,
+                "user_id": p.user_id,
+                "provider": p.provider,
+                "amount": p.amount,
+                "status": p.status,
+                "paid_at": p.paid_at,
+            }
+            for p in payments
+        ]
 
 
 if __name__ == "__main__":
