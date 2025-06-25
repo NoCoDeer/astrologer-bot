@@ -1,7 +1,6 @@
 import asyncio
 import logging
-from datetime import datetime, timedelta, time
-from typing import List
+from datetime import datetime, timedelta
 
 from celery import Task
 from sqlalchemy import select, delete, and_
