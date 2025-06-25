@@ -2,7 +2,7 @@
 # Interactive deployment script for Ubuntu 22.04
 set -e
 
-REPO_URL=${REPO_URL:-https://github.com/example/astrologer-bot.git}
+REPO_URL=${REPO_URL:-https://github.com/NoCoDeer/astrologer-bot.git}
 APP_DIR=${APP_DIR:-/opt/astrologer-bot}
 
 check_root() {
