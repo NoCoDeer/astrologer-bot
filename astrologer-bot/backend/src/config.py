@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     telegram_bot_token: str = Field(..., env="TELEGRAM_BOT_TOKEN")
     telegram_webhook_url: Optional[str] = Field(None, env="TELEGRAM_WEBHOOK_URL")
     telegram_payments_token: Optional[str] = Field(None, env="TELEGRAM_PAYMENTS_TOKEN")
+    telegram_stars_token: Optional[str] = Field(None, env="TELEGRAM_STARS_TOKEN")
     
     # Database Configuration
     database_url: str = Field(..., env="DATABASE_URL")
@@ -25,6 +26,10 @@ class Settings(BaseSettings):
     
     # Geocoding API
     geocoding_api_key: Optional[str] = Field(None, env="GEOCODING_API_KEY")
+
+    # Admin credentials
+    admin_username: str = Field("admin", env="ADMIN_USERNAME")
+    admin_password: str = Field("admin", env="ADMIN_PASSWORD")
     
     # Application Configuration
     debug: bool = Field(False, env="DEBUG")
