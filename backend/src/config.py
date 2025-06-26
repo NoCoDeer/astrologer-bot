@@ -51,7 +51,7 @@ class Settings(BaseSettings):
     yearly_subscription_price: int = Field(990000, env="YEARLY_SUBSCRIPTION_PRICE")
     
     class Config:
-        env_file = ".env"
+        env_file = "backend/.env"
         case_sensitive = False
 
 
