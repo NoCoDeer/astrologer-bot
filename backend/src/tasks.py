@@ -4,6 +4,10 @@ from datetime import datetime, timedelta
 
 from celery import Task
 from sqlalchemy import select, delete, and_
+# Note: Celery tasks use python-telegram-bot to deliver scheduled messages
+# such as daily horoscopes directly from this Python backend. The interactive
+# Telegram bot runs with Telegraf.js in the `bot/` service, so we keep both
+# libraries in the project.
 from telegram import Bot
 
 from src.celery_app import celery_app
