@@ -20,7 +20,7 @@ cd astrologer-bot
 Copy the example environment file and edit it with your credentials:
 ```bash
 cp bot/.env.example bot/.env
-nano bot/.env
+nano bot/.env    # edit the new .env file; leave .env.example unchanged
 ```
 Set `TELEGRAM_BOT_TOKEN` and `OPENROUTER_API_KEY`.
 

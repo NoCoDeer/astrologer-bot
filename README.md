@@ -73,7 +73,7 @@ cd astrologer-bot
 cp backend/.env.example backend/.env
 cp bot/.env.example bot/.env
 
-# Edit configuration
+# Edit configuration (edit the new .env files, not the .env.example files)
 nano backend/.env
 nano bot/.env
 ```

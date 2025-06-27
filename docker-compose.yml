@@ -158,7 +158,7 @@ services:
       context: ./bot
     container_name: astrologer_node_bot
     env_file:
-      - ./bot/.env.example
+      - ./bot/.env
     depends_on:
       - postgres
       - redis
