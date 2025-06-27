@@ -77,6 +77,7 @@ cp bot/.env.example bot/.env
 nano backend/.env
 nano bot/.env
 ```
+> **Note**: `backend/.env` must be copied from `.env.example` before running any `docker-compose` commands.
 
 ### 3. Configure Environment Variables
 ```env
