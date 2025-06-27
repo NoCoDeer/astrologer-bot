@@ -3,11 +3,20 @@ const express = require('express');
 const session = require('express-session');
 const AdminJS = require('adminjs');
 const AdminJSExpress = require('@adminjs/express');
+const AdminJSSequelize = require('@adminjs/sequelize');
+const { sequelize, User } = require('./models');
+
+AdminJS.registerAdapter({ Database: AdminJSSequelize.Database, Resource: AdminJSSequelize.Resource });
 
 const app = express();
 
+if (!process.env.ADMIN_EMAIL || !process.env.ADMIN_PASSWORD) {
+  console.error('ADMIN_EMAIL and ADMIN_PASSWORD must be set');
+  process.exit(1);
+}
+
 const adminJs = new AdminJS({
-  databases: [],
+  resources: [{ resource: User }],
   rootPath: '/admin',
 });
 
@@ -15,6 +24,8 @@ const ADMIN = {
   email: process.env.ADMIN_EMAIL,
   password: process.env.ADMIN_PASSWORD,
 };
+
+sequelize.sync();
 
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
   authenticate: async (email, password) => {
