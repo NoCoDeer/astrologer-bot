@@ -116,6 +116,10 @@ docker-compose --profile production up -d
 
 # With monitoring (Flower)
 docker-compose --profile monitoring up -d
+
+# Start Node.js services only
+docker-compose up node_bot node_admin node_api node_scheduler -d
+
 ```
 
 ### 5. Verify Installation

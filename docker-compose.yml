@@ -153,6 +153,51 @@ services:
       - app
     restart: unless-stopped
 
+  node_bot:
+    build:
+      context: ./bot
+    container_name: astrologer_node_bot
+    env_file:
+      - ./bot/.env.example
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  node_admin:
+    build:
+      context: ./admin
+    container_name: astrologer_node_admin
+    env_file:
+      - ./admin/.env.example
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  node_api:
+    build:
+      context: ./api
+    container_name: astrologer_node_api
+    env_file:
+      - ./api/.env.example
+    ports:
+      - "3003:3003"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  node_scheduler:
+    build:
+      context: ./scheduler
+    container_name: astrologer_node_scheduler
+    env_file:
+      - ./scheduler/.env.example
+    depends_on:
+      - node_api
+    restart: unless-stopped
+
 
 volumes:
   postgres_data:

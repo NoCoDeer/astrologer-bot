@@ -1,0 +1,1 @@
+Interpret the drawn tarot cards in the context of the user's question.
