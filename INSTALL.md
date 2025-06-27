@@ -1,37 +1,40 @@
-# Installation Guide
+# Installation Guide (Telegraf.js Version)
 
-This guide describes how to quickly deploy **Astrologer Bot** on any Ubuntu server.
+This guide explains how to deploy **Astrologer Bot** written with [Telegraf.js](https://github.com/telegraf/telegraf) on a fresh Ubuntu server.
 
 ## Requirements
 - Docker and Docker Compose
-- Python 3.11+ with `pip`
+- Telegram Bot Token from [@BotFather](https://t.me/BotFather)
+- OpenRouter API key for AI responses
 
-## 1. Upload and Unpack
-1. Download the latest release archive of the project.
-2. Upload the archive to your server and unzip it:
-   ```bash
-   unzip astrologer-bot.zip
-   cd astrologer-bot
-   ```
-
-## 2. Install Prerequisites
-Install Docker and Python packages if they are not present:
+## 1. Clone Repository
 ```bash
 sudo apt update
-sudo apt install docker.io docker-compose python3 python3-pip -y
+sudo apt install docker.io docker-compose -y
+
+git clone https://github.com/yourname/astrologer-bot.git
+cd astrologer-bot
 ```
 
-## 3. Run the Web Installer
-Install the small web installer and start it:
+## 2. Configure Environment
+Copy the example environment file and edit it with your credentials:
 ```bash
-pip3 install -r installer/requirements.txt
-python3 installer/app.py
+cp bot/.env.example bot/.env
+nano bot/.env
 ```
-Open `http://<your-server-ip>:8080` in a browser. Fill in the form with your Telegram tokens, API keys and desired admin credentials. After submission the installer writes the configuration and launches all Docker containers.
+Set `TELEGRAM_BOT_TOKEN` and `OPENROUTER_API_KEY`.
 
-## 4. Finish
-Once installation completes the bot will be running. Access the admin panel with the credentials you provided. To manage the bot later, use standard Docker Compose commands:
+## 3. Start Bot
+Run the Node.js bot container via Docker Compose:
 ```bash
-docker-compose ps       # check services
-docker-compose logs -f  # view logs
+docker-compose up node_bot -d
 ```
+The bot will start and connect to Telegram using Telegraf.
+
+## 4. Manage Services
+Check running containers and view logs:
+```bash
+docker-compose ps
+docker-compose logs -f node_bot
+```
+Stop the bot with `docker-compose down`.
