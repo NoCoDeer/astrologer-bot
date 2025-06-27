@@ -17,6 +17,7 @@ cd astrologer-bot
 ```
 
 ## 2. Configure Environment
+Copy the example environment file and edit it with your credentials:
 Copy the example environment files and edit them with your credentials:
 ```bash
 cp backend/.env.example backend/.env
@@ -25,6 +26,7 @@ cp bot/.env.example bot/.env
 nano backend/.env
 nano bot/.env
 ```
+Set `TELEGRAM_BOT_TOKEN` and `OPENROUTER_API_KEY`.
 Set `TELEGRAM_BOT_TOKEN` and `OPENROUTER_API_KEY`. The `backend/.env` file must be in place before running any `docker-compose` commands.
 
 ## 3. Start Bot

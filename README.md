@@ -29,9 +29,10 @@ A multilingual AI-powered Telegram bot offering comprehensive astrological servi
 
 ## 🏗️ Architecture
 
-### Backend Stack
-- **Node.js 18+** with Telegraf.js for the Telegram bot
-- **Python 3.11+** with FastAPI for API services
+-### Backend Stack
+- **Node.js 18+** with Telegraf.js for the interactive Telegram bot
+- **Python 3.11+** with FastAPI for API services and Celery tasks
+- **python-telegram-bot** for sending scheduled messages from Python
 - **PostgreSQL** for data persistence
 - **Redis** for caching and Celery
 - **Celery** for scheduled tasks
@@ -73,7 +74,7 @@ cd astrologer-bot
 cp backend/.env.example backend/.env
 cp bot/.env.example bot/.env
 
-# Edit configuration
+# Edit configuration (edit the new .env files, not the .env.example files)
 nano backend/.env
 nano bot/.env
 ```
@@ -445,6 +446,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Swiss Ephemeris** for astronomical calculations
 - **OpenRouter** for AI model access
 - **Telegraf.js** for Telegram integration
+- **python-telegram-bot** for scheduled Telegram messages
 - **FastAPI** for the web framework
 - **Celery** for task scheduling
 

@@ -2,7 +2,19 @@ require('dotenv').config();
 const { Telegraf, Markup } = require('telegraf');
 const axios = require('axios');
 
-const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+const botToken = process.env.TELEGRAM_BOT_TOKEN;
+const openrouterKey = process.env.OPENROUTER_API_KEY;
+
+if (!botToken) {
+  console.error('Error: TELEGRAM_BOT_TOKEN is not set. Check your environment.');
+  process.exit(1);
+}
+
+if (!openrouterKey) {
+  console.warn('Warning: OPENROUTER_API_KEY is not configured. AI features will be disabled.');
+}
+
+const bot = new Telegraf(botToken);
 
 // Tarot deck used for simple readings
 const TAROT_CARDS = [
